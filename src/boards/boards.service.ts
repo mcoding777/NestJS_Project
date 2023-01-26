@@ -2,9 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class BoardsService {
-  constructor(private boards: string[]) {
-    this.boards = boards;
-  }
+  private boards = [];
 
   addBoard(board: string) {
     this.boards.push(board);
