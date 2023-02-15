@@ -6,7 +6,7 @@ import { BoardsService } from './boards.service';
 export class BoardsController {
   constructor(private boardService: BoardsService) {}
 
-  @Get()
+  @Get() // get method이면 아래 함수를 실행해라
   getAllBoards() {
     return this.boardService.getAllBoards();
   }
