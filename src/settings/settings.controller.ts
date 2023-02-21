@@ -11,6 +11,6 @@ export class SettingsController {
     @Param('property') property: 'one' | 'two',
   ): Promise<string> {
     this.settingService.setSetting[property] = data.text;
-    return '성공적으로 변경되었습니다.';
+    return `성공적으로 변경되었습니다. => 변경된 데이터 : ${data.text}`;
   }
 }
