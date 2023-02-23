@@ -14,3 +14,6 @@ services:
       - ./db/mysql/data:/var/lib/mysql
       - ./db/mysql/init:/docker-entrypoint-initdb.d
     platform: linux/x86_64
+    command: # utf8로 인코딩해주는 명령어들
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
