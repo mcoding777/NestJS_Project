@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
+import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
+import { CreateUserDto, GetUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import { UserService } from './user.service';
 
@@ -17,8 +17,16 @@ export class UserController {
     return await this.userService.getAllName();
   }
 
+  // 회원가입
   @Post('/signup')
   async createUser(@Body() user: CreateUserDto) {
     this.userService.createUser(user);
+  }
+
+  // 로그인
+  @Post('/signin')
+  @HttpCode(200)
+  async getUser(@Body() user: GetUserDto) {
+    return this.userService.getUser(user);
   }
 }

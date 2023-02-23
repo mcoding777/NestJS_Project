@@ -17,10 +17,23 @@ export class CreateUserDto {
   phone: string;
 }
 
+export class GetUserDto {
+  @IsNotEmpty()
+  user_id: string;
+
+  @IsNotEmpty()
+  user_pw: string;
+}
+
 export type CreateUserParams = {
   user_id: string;
   user_pw: string;
   client: string;
   manager: string;
   phone: string;
+};
+
+export type GetUserParams = {
+  user_id: string;
+  user_pw: string;
 };
