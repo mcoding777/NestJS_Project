@@ -1,4 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
+import { User } from './entities/user.entity';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -8,5 +9,10 @@ export class UserController {
   @Get('/:name')
   getName(@Param('name') name: string) {
     return this.userService.getName(name);
+  }
+
+  @Get('/')
+  async getAllNames() {
+    return await this.userService.getAllName();
   }
 }

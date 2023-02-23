@@ -1,22 +1,22 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'users' })
 export class User {
-  @PrimaryGeneratedColumn() // PK와 auto increment 적용
+  @PrimaryGeneratedColumn({ type: 'bigint' }) // PK와 auto increment 적용
   id: number;
 
-  @Column()
+  @Column({ type: 'varchar', length: 50, unique: true, nullable: false })
   user_id: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 50, nullable: false })
   user_pw: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 50, nullable: false })
   client: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 50, nullable: false })
   manager: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 15, nullable: false })
   phone: string;
 }
