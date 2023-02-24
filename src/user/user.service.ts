@@ -24,14 +24,17 @@ export class UserService {
     return `${name}는 바보입니다.`;
   }
 
-  // 회원가입
-  async createUser(user: CreateUserParams): Promise<User> {
-    const found = await this.userRepository.findOne({
+  // 존재하는지 체크
+  async isExistUser(user: GetUserParams) {
+    return await this.userRepository.findOne({
       where: { user_id: user.user_id },
     });
+  }
 
+  // 회원가입
+  async createUser(user: CreateUserParams): Promise<User> {
     // Guard Clause
-    if (found) {
+    if (this.isExistUser(user)) {
       throw new ConflictException('이미 존재하는 아이디입니다.');
     }
 
@@ -40,9 +43,7 @@ export class UserService {
 
   // 로그인
   async getUser(user: GetUserParams): Promise<User> {
-    const found = await this.userRepository.findOne({
-      where: { user_id: user.user_id, user_pw: user.user_pw },
-    });
+    const found = this.isExistUser(user);
 
     if (!found) {
       throw new NotFoundException();
@@ -53,11 +54,7 @@ export class UserService {
 
   // 회원탈퇴
   async deleteUser(user: GetUserParams) {
-    const found = await this.userRepository.findOne({
-      where: { user_id: user.user_id },
-    });
-
-    if (!found) {
+    if (!this.isExistUser(user)) {
       throw new NotFoundException();
     } else {
       await this.userRepository
