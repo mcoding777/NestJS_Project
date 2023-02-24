@@ -26,26 +26,16 @@ export class UserService {
 
   // 회원가입
   async createUser(user: CreateUserParams): Promise<User> {
-    // const isExist = this.userRepository.findOne({
-    //   where: { user_id: user.user_id },
-    // });
+    const found = await this.userRepository.findOne({
+      where: { user_id: user.user_id },
+    });
 
-    // if (isExist) {
-    //   throw new QueryFailedError('메롱이다', [], 400);
-    // } else {
-    //   return await this.userRepository.save(this.userRepository.create(user));
-    // }
-    // return await this.userRepository.save(this.userRepository.create(user));
-
-    try {
-      return await this.userRepository.save(this.userRepository.create(user));
-    } catch (error) {
-      if (error instanceof QueryFailedError) {
-        throw new ConflictException('이미 존재하는 아이디입니다.');
-      } else {
-        throw new InternalServerErrorException();
-      }
+    // Guard Clause
+    if (found) {
+      throw new ConflictException('이미 존재하는 아이디입니다.');
     }
+
+    return this.userRepository.save(this.userRepository.create(user));
   }
 
   // 로그인
@@ -55,9 +45,27 @@ export class UserService {
     });
 
     if (!found) {
-      throw new NotFoundException(`아이디나 비밀번호를 다시 확인해주세요.`);
+      throw new NotFoundException();
     }
 
     return found;
+  }
+
+  // 회원탈퇴
+  async deleteUser(user: GetUserParams) {
+    const found = await this.userRepository.findOne({
+      where: { user_id: user.user_id },
+    });
+
+    if (!found) {
+      throw new NotFoundException();
+    } else {
+      await this.userRepository
+        .createQueryBuilder()
+        .delete()
+        .from(User)
+        .where('user_id = :user_id', { user_id: user.user_id })
+        .execute();
+    }
   }
 }

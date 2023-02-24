@@ -4,6 +4,7 @@ import {
   ArgumentsHost,
   HttpException,
   HttpStatus,
+  NotFoundException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { QueryFailedError } from 'typeorm';
@@ -25,15 +26,24 @@ export class GlobalExceptionFilter implements ExceptionFilter {
 
       case QueryFailedError: // for TypeOrm error
         status = HttpStatus.UNPROCESSABLE_ENTITY;
-        message = '메롱이다';
+        message = (exception as QueryFailedError).message;
         code = (exception as any).code;
         break;
 
+      case NotFoundException:
+        status = (exception as HttpException).getStatus();
+        message = '입력하신 내용을 다시 확인해주세요.';
+        break;
+
       default: // default
-        status = HttpStatus.INTERNAL_SERVER_ERROR;
+        status = (exception as HttpException).getStatus();
+        message = (exception as QueryFailedError).message;
+        code = (exception as any).code;
     }
+
     response.status(status).json({
-      statusCode: code,
+      errorType: code,
+      statusCode: status,
       message: message,
       timestamp: new Date().toISOString(),
       path: request.url,

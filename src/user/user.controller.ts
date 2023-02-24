@@ -1,21 +1,17 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   Param,
   Post,
-  UseFilters,
 } from '@nestjs/common';
-import {
-  CreateUserDto,
-  GetUserDto,
-  GlobalExceptionFilter,
-} from './dto/create-user.dto';
+import { CreateUserDto, GetUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
 
 @Controller('user')
-@UseFilters(GlobalExceptionFilter) // 컨트롤러단에서 예외 처리
+// @UseFilters(GlobalExceptionFilter) // 컨트롤러단에서 예외 처리 (전역 설정 안했을 때)
 export class UserController {
   constructor(private userService: UserService) {}
 
@@ -32,7 +28,7 @@ export class UserController {
   // 회원가입
   @Post('/signup')
   async createUser(@Body() user: CreateUserDto) {
-    this.userService.createUser(user);
+    return this.userService.createUser(user);
   }
 
   // 로그인
@@ -40,5 +36,11 @@ export class UserController {
   @HttpCode(200)
   async getUser(@Body() user: GetUserDto) {
     return this.userService.getUser(user);
+  }
+
+  // 회원탈퇴
+  @Delete('/signin')
+  async deleteUser(@Body() user: GetUserDto) {
+    return this.userService.deleteUser(user);
   }
 }
