@@ -7,6 +7,8 @@ import { SettingsModule } from './settings/settings.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user/entities/user.entity';
 import { LogModule } from './log/log.module';
+import { APP_FILTER } from '@nestjs/core';
+import { GlobalExceptionFilter } from './http-exception.filter';
 
 @Module({
   imports: [
@@ -27,12 +29,15 @@ import { LogModule } from './log/log.module';
       synchronize: true, // entity 설정 적용
       logging: true, // 로그 계속 뜨게
       keepConnectionAlive: true, // 연결 유지
-      extra: {
-        charset: 'utf8mb4_unicode_ci',
-      },
       charset: 'utf8mb4_unicode_ci',
     }),
     LogModule,
+  ],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: GlobalExceptionFilter,
+    },
   ],
 })
 export class AppModule {}

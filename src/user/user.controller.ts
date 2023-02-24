@@ -1,9 +1,21 @@
-import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
-import { CreateUserDto, GetUserDto } from './dto/create-user.dto';
-import { User } from './entities/user.entity';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  UseFilters,
+} from '@nestjs/common';
+import {
+  CreateUserDto,
+  GetUserDto,
+  GlobalExceptionFilter,
+} from './dto/create-user.dto';
 import { UserService } from './user.service';
 
 @Controller('user')
+@UseFilters(GlobalExceptionFilter) // 컨트롤러단에서 예외 처리
 export class UserController {
   constructor(private userService: UserService) {}
 

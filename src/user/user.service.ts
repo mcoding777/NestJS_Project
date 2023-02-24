@@ -1,11 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import {
-  CreateUserDto,
-  CreateUserParams,
-  GetUserParams,
-} from './dto/create-user.dto';
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { QueryFailedError, Repository } from 'typeorm';
+import { CreateUserParams, GetUserParams } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 
 @Injectable()
@@ -25,7 +26,26 @@ export class UserService {
 
   // 회원가입
   async createUser(user: CreateUserParams): Promise<User> {
-    return await this.userRepository.save(this.userRepository.create(user));
+    // const isExist = this.userRepository.findOne({
+    //   where: { user_id: user.user_id },
+    // });
+
+    // if (isExist) {
+    //   throw new QueryFailedError('메롱이다', [], 400);
+    // } else {
+    //   return await this.userRepository.save(this.userRepository.create(user));
+    // }
+    // return await this.userRepository.save(this.userRepository.create(user));
+
+    try {
+      return await this.userRepository.save(this.userRepository.create(user));
+    } catch (error) {
+      if (error instanceof QueryFailedError) {
+        throw new ConflictException('이미 존재하는 아이디입니다.');
+      } else {
+        throw new InternalServerErrorException();
+      }
+    }
   }
 
   // 로그인
