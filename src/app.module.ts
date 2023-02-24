@@ -9,6 +9,8 @@ import { User } from './user/entities/user.entity';
 import { LogModule } from './log/log.module';
 import { APP_FILTER } from '@nestjs/core';
 import { GlobalExceptionFilter } from './http-exception.filter';
+import { ReferenceModule } from './reference/reference.module';
+import { Reference } from './reference/entities/reference.entity';
 
 @Module({
   imports: [
@@ -24,7 +26,7 @@ import { GlobalExceptionFilter } from './http-exception.filter';
       username: 'root',
       password: '1234',
       database: 'mlops',
-      entities: [User],
+      entities: [User, Reference],
       autoLoadEntities: true,
       synchronize: true, // entity 설정 적용
       logging: true, // 로그 계속 뜨게
@@ -32,6 +34,7 @@ import { GlobalExceptionFilter } from './http-exception.filter';
       charset: 'utf8mb4_unicode_ci',
     }),
     LogModule,
+    ReferenceModule,
   ],
   providers: [
     {
