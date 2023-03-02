@@ -37,8 +37,6 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         break;
 
       default: // default
-        status = (exception as HttpException).getStatus();
-        message = (exception as QueryFailedError).message;
         code = (exception as any).code;
     }
 

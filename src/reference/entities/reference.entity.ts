@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity({ name: 'reference' })
 export class Reference {
@@ -18,4 +25,14 @@ export class Reference {
 
   @Column({ type: 'varchar', length: 200, nullable: true })
   description: string;
+
+  @CreateDateColumn()
+  created!: Date;
+
+  @UpdateDateColumn()
+  updated!: Date;
+
+  // 이게 있어야 softDelete가 동작함
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }

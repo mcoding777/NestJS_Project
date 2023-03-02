@@ -24,6 +24,11 @@ export class ReferenceRepository {
   }
 
   async deleteByValue(value: ReferenceParams['value']) {
-    return await this.referenceRepository.softDelete(value);
+    return await this.referenceRepository
+      .createQueryBuilder()
+      .delete()
+      .from(Reference)
+      .where({ value })
+      .execute();
   }
 }
