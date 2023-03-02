@@ -16,12 +16,10 @@ export class ReferenceService {
   ) {}
 
   // value가 존재하는지 체크
-  async isExistReference(
-    reference: CreateReferenceParams | CreateReferenceParams['value'],
-  ) {
+  async isExistReference(value: CreateReferenceParams['value']) {
     return await this.referenceRepository.findOne({
       where: {
-        value: typeof reference === 'string' ? reference : reference.value,
+        value,
       },
     });
   }
@@ -39,7 +37,7 @@ export class ReferenceService {
 
   // 추가
   async createReference(reference: CreateReferenceParams) {
-    const found = await this.isExistReference(reference);
+    const found = await this.isExistReference(reference.value);
 
     if (found) {
       throw new ConflictException('이미 존재하는 Argument 입니다.');
@@ -52,8 +50,7 @@ export class ReferenceService {
 
   // 수정
   async updateReference(reference: CreateReferenceParams) {
-    const found = await this.isExistReference(reference);
-    console.log('found =>', found);
+    const found = await this.isExistReference(reference.value);
 
     if (!found) {
       throw new NotFoundException();
