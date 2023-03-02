@@ -15,9 +15,9 @@ export class ReferenceController {
   constructor(private readonly referenceService: ReferenceService) {}
 
   // 검색
-  @Get('/:id')
-  async getReference(@Param('id') id: number) {
-    return await this.referenceService.getReference(id);
+  @Get('/:value')
+  async getReference(@Param('value') value: string) {
+    return await this.referenceService.getReference(value);
   }
 
   // 추가

@@ -31,8 +31,9 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         break;
 
       case NotFoundException:
-        status = (exception as HttpException).getStatus();
-        message = '입력하신 내용을 다시 확인해주세요.';
+        status = HttpStatus.NOT_FOUND;
+        message = '찾을 수 없습니다. 입력하신 내용을 다시 확인해주세요.';
+        code = (exception as any).code;
         break;
 
       default: // default

@@ -15,18 +15,26 @@ export class ReferenceService {
     private referenceRepository: Repository<Reference>,
   ) {}
 
-  // 존재하는지 체크
-  async isExistReference(reference: CreateReferenceParams) {
+  // value가 존재하는지 체크
+  async isExistReference(
+    reference: CreateReferenceParams | CreateReferenceParams['value'],
+  ) {
     return await this.referenceRepository.findOne({
-      where: { value: reference.value },
+      where: {
+        value: typeof reference === 'string' ? reference : reference.value,
+      },
     });
   }
 
   // 검색
-  async getReference(id: number) {
-    return await this.referenceRepository.findOne({
-      where: { id },
-    });
+  async getReference(value: string) {
+    const found = await this.isExistReference(value);
+
+    if (!found) {
+      throw new NotFoundException();
+    }
+
+    return found;
   }
 
   // 추가
@@ -45,9 +53,10 @@ export class ReferenceService {
   // 수정
   async updateReference(reference: CreateReferenceParams) {
     const found = await this.isExistReference(reference);
+    console.log('found =>', found);
 
     if (!found) {
-      throw new NotFoundException('찾을 수 없는 Argument 입니다.');
+      throw new NotFoundException();
     }
     return this.referenceRepository.update(found.id, reference);
   }
@@ -62,7 +71,7 @@ export class ReferenceService {
         .where({ value: reference.value })
         .execute();
     } catch (error) {
-      throw new NotFoundException('찾을 수 없는 Argument 입니다.');
+      throw new NotFoundException();
     }
   }
 }
