@@ -1,4 +1,12 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { CreateReferenceDto } from './dto/create-reference';
 import { ReferenceService } from './reference.service';
 
@@ -6,17 +14,23 @@ import { ReferenceService } from './reference.service';
 export class ReferenceController {
   constructor(private readonly referenceService: ReferenceService) {}
 
+  // 검색
+  @Get('/:id')
+  async getReference(@Param('id') id: number) {
+    return await this.referenceService.getReference(id);
+  }
+
   // 추가
-  @Get('/')
-  createReference(@Query() params: CreateReferenceDto) {
-    return this.referenceService.createReference({
-      value: params.value,
-      label: params.label,
-      description: params.description,
-    });
+  @Post('/')
+  async createReference(@Body() body: CreateReferenceDto) {
+    return await this.referenceService.createReference(body);
   }
 
   // 수정
+  @Patch('/')
+  updateReference(@Body() body: CreateReferenceDto) {
+    return this.referenceService.updateReference(body);
+  }
 
   // 삭제
 }

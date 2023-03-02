@@ -1,4 +1,4 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateReferenceDto {
   @IsNotEmpty()
@@ -7,6 +7,8 @@ export class CreateReferenceDto {
   @IsNotEmpty()
   label: string;
 
+  @IsOptional()
+  @IsString()
   description: string;
 }
 

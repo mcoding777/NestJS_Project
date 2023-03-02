@@ -22,27 +22,34 @@ export class ReferenceService {
     });
   }
 
+  // 검색
+  async getReference(id: number) {
+    return await this.referenceRepository.findOne({
+      where: { id },
+    });
+  }
+
   // 추가
   async createReference(reference: CreateReferenceParams) {
-    if (this.isExistReference(reference)) {
+    const found = await this.isExistReference(reference);
+
+    if (found) {
       throw new ConflictException('이미 존재하는 Argument 입니다.');
     }
 
-    return this.referenceRepository.save(
+    return await this.referenceRepository.save(
       this.referenceRepository.create(reference),
     );
   }
 
   // 수정
   async updateReference(reference: CreateReferenceParams) {
-    try {
-      return this.referenceRepository.update(
-        { value: reference.value },
-        reference,
-      );
-    } catch (error) {
+    const found = await this.isExistReference(reference);
+
+    if (!found) {
       throw new NotFoundException('찾을 수 없는 Argument 입니다.');
     }
+    return this.referenceRepository.update(found.id, reference);
   }
 
   // 삭제

@@ -16,6 +16,6 @@ export class Reference {
   @Column({ type: 'varchar', length: 50, nullable: false })
   label: string;
 
-  @Column({ type: 'varchar', length: 100, nullable: true })
+  @Column({ type: 'varchar', length: 200, nullable: true })
   description: string;
 }
