@@ -12,7 +12,7 @@ export class CreateReferenceDto {
   description: string;
 }
 
-export type CreateReferenceParams = {
+export type ReferenceParams = {
   value: string;
   label: string;
   description?: string;

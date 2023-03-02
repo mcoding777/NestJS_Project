@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   Param,
@@ -38,16 +39,29 @@ export class ReferenceController {
   }
 
   // 수정
-  @Patch('/')
-  async updateReference(@Body() body: CreateReferenceDto) {
-    const result = this.referenceService.updateReference(body);
+  @Patch('/:value')
+  async updateReference(
+    @Param('value') value: string,
+    @Body() body: CreateReferenceDto,
+  ) {
+    const result = await this.referenceService.updateReference(value, body);
 
     return Object.assign({
       data: result,
       status: 200,
-      message: '데이터 추가에 성공했습니다.',
+      message: '데이터 수정에 성공했습니다.',
     });
   }
 
   // 삭제
+  @Delete('/:value')
+  async deleteReference(@Param('value') value: string) {
+    const result = await this.referenceService.deleteReference(value);
+
+    return Object.assign({
+      data: result,
+      status: 200,
+      message: '데이터 삭제에 성공했습니다.',
+    });
+  }
 }

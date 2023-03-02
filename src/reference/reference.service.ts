@@ -4,8 +4,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { CreateReferenceParams } from './dto/create-reference';
+import { QueryFailedError, Repository } from 'typeorm';
+import { ReferenceParams } from './dto/create-reference';
 import { Reference } from './entities/reference.entity';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class ReferenceService {
   ) {}
 
   // value가 존재하는지 체크
-  async isExistReference(value: CreateReferenceParams['value']) {
+  async isExistReference(value: ReferenceParams['value']) {
     return await this.referenceRepository.findOne({
       where: {
         value,
@@ -36,7 +36,7 @@ export class ReferenceService {
   }
 
   // 추가
-  async createReference(reference: CreateReferenceParams) {
+  async createReference(reference: ReferenceParams) {
     const found = await this.isExistReference(reference.value);
 
     if (found) {
@@ -49,23 +49,34 @@ export class ReferenceService {
   }
 
   // 수정
-  async updateReference(reference: CreateReferenceParams) {
-    const found = await this.isExistReference(reference.value);
+  async updateReference(
+    value: ReferenceParams['value'],
+    reference: ReferenceParams,
+  ) {
+    const found = await this.isExistReference(value);
 
     if (!found) {
       throw new NotFoundException();
     }
+
+    const updateFound = await this.isExistReference(reference.value);
+
+    // 바꿀 데이터의 value는 존재하지 않는지? (중복 값 체크)
+    if (updateFound && value !== reference.value) {
+      throw new QueryFailedError('', [], '중복 값입니다.');
+    }
+
     return this.referenceRepository.update(found.id, reference);
   }
 
   // 삭제
-  async deleteReference(reference: CreateReferenceParams) {
+  async deleteReference(value: ReferenceParams['value']) {
     try {
       return this.referenceRepository
         .createQueryBuilder()
         .delete()
         .from(Reference)
-        .where({ value: reference.value })
+        .where({ value })
         .execute();
     } catch (error) {
       throw new NotFoundException();
