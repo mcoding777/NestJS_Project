@@ -11,6 +11,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { GlobalExceptionFilter } from './http-exception.filter';
 import { ReferenceModule } from './reference/reference.module';
 import { Reference } from './reference/entities/reference.entity';
+import { PipelineModule } from './pipeline/pipeline.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { Reference } from './reference/entities/reference.entity';
     }),
     LogModule,
     ReferenceModule,
+    PipelineModule,
   ],
   providers: [
     {
