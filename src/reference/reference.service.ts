@@ -1,32 +1,23 @@
 import {
   ConflictException,
+  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { QueryFailedError, Repository } from 'typeorm';
+import { QueryFailedError } from 'typeorm';
 import { ReferenceParams } from './dto/create-reference';
-import { Reference } from './entities/reference.entity';
+import { ReferenceRepository } from './reference.repository';
 
 @Injectable()
 export class ReferenceService {
   constructor(
-    @InjectRepository(Reference)
-    private referenceRepository: Repository<Reference>,
+    @Inject(ReferenceRepository)
+    private referenceService: ReferenceRepository,
   ) {}
-
-  // value가 존재하는지 체크
-  async isExistReference(value: ReferenceParams['value']) {
-    return await this.referenceRepository.findOne({
-      where: {
-        value,
-      },
-    });
-  }
 
   // 검색
   async getReference(value: string) {
-    const found = await this.isExistReference(value);
+    const found = await this.referenceService.findOneByValue(value);
 
     if (!found) {
       throw new NotFoundException();
@@ -37,15 +28,13 @@ export class ReferenceService {
 
   // 추가
   async createReference(reference: ReferenceParams) {
-    const found = await this.isExistReference(reference.value);
+    const found = await this.referenceService.findOneByValue(reference.value);
 
     if (found) {
       throw new ConflictException('이미 존재하는 Argument 입니다.');
     }
 
-    return await this.referenceRepository.save(
-      this.referenceRepository.create(reference),
-    );
+    return await this.referenceService.save(reference);
   }
 
   // 수정
@@ -53,33 +42,26 @@ export class ReferenceService {
     value: ReferenceParams['value'],
     reference: ReferenceParams,
   ) {
-    const found = await this.isExistReference(value);
+    const found = await this.referenceService.findOneByValue(value);
 
     if (!found) {
       throw new NotFoundException();
     }
 
-    const updateFound = await this.isExistReference(reference.value);
+    const updateFound = await this.referenceService.findOneByValue(
+      reference.value,
+    );
 
     // 바꿀 데이터의 value는 존재하지 않는지? (중복 값 체크)
     if (updateFound && value !== reference.value) {
       throw new QueryFailedError('', [], '중복 값입니다.');
     }
 
-    return this.referenceRepository.update(found.id, reference);
+    return this.referenceService.update(found.id, reference);
   }
 
   // 삭제
   async deleteReference(value: ReferenceParams['value']) {
-    try {
-      return this.referenceRepository
-        .createQueryBuilder()
-        .delete()
-        .from(Reference)
-        .where({ value })
-        .execute();
-    } catch (error) {
-      throw new NotFoundException();
-    }
+    return this.referenceService.deleteByValue(value);
   }
 }
