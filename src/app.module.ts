@@ -12,6 +12,7 @@ import { GlobalExceptionFilter } from './http-exception.filter';
 import { ReferenceModule } from './reference/reference.module';
 import { Reference } from './reference/entities/reference.entity';
 import { PipelineModule } from './pipeline/pipeline.module';
+import { PipelineDataModule } from './pipeline-data/pipeline-data.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { PipelineModule } from './pipeline/pipeline.module';
     LogModule,
     ReferenceModule,
     PipelineModule,
+    PipelineDataModule,
   ],
   providers: [
     {
