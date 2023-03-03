@@ -1,11 +1,10 @@
 import {
   ConflictException,
   Injectable,
-  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { QueryFailedError, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateUserParams, GetUserParams } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 
@@ -34,7 +33,7 @@ export class UserService {
   // 회원가입
   async createUser(user: CreateUserParams): Promise<User> {
     // Guard Clause
-    if (this.isExistUser(user)) {
+    if (await this.isExistUser(user)) {
       throw new ConflictException('이미 존재하는 아이디입니다.');
     }
 
@@ -43,7 +42,7 @@ export class UserService {
 
   // 로그인
   async getUser(user: GetUserParams): Promise<User> {
-    const found = this.isExistUser(user);
+    const found = await this.isExistUser(user);
 
     if (!found) {
       throw new NotFoundException();
@@ -54,7 +53,7 @@ export class UserService {
 
   // 회원탈퇴
   async deleteUser(user: GetUserParams) {
-    if (!this.isExistUser(user)) {
+    if (!(await this.isExistUser(user))) {
       throw new NotFoundException();
     } else {
       await this.userRepository

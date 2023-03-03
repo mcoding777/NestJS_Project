@@ -15,6 +15,17 @@ export class ReferenceService {
     private referenceService: ReferenceRepository,
   ) {}
 
+  // 전체 검색
+  async getAllReference() {
+    const found = await this.referenceService.findAll();
+
+    if (!found) {
+      throw new NotFoundException();
+    }
+
+    return found;
+  }
+
   // 검색
   async getReference(value: string) {
     const found = await this.referenceService.findOneByValue(value);

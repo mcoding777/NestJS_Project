@@ -11,6 +11,10 @@ export class ReferenceRepository {
     private referenceRepository: Repository<Reference>,
   ) {}
 
+  async findAll() {
+    return await this.referenceRepository.find();
+  }
+
   async findOneByValue(value: ReferenceParams['value']) {
     return await this.referenceRepository.findOneBy({ value });
   }

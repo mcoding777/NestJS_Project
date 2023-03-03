@@ -3,11 +3,9 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
   Param,
   Patch,
   Post,
-  Query,
 } from '@nestjs/common';
 import { CreateReferenceDto } from './dto/create-reference';
 import { ReferenceService } from './reference.service';
@@ -15,6 +13,17 @@ import { ReferenceService } from './reference.service';
 @Controller('reference')
 export class ReferenceController {
   constructor(private readonly referenceService: ReferenceService) {}
+
+  // 전체 검색
+  @Get('/')
+  async getAllReference() {
+    const result = await this.referenceService.getAllReference();
+    return Object.assign({
+      data: result,
+      status: 200,
+      message: '데이터 조회에 성공했습니다.',
+    });
+  }
 
   // 검색
   @Get('/:value')

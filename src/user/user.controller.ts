@@ -16,8 +16,8 @@ export class UserController {
   constructor(private userService: UserService) {}
 
   @Get('/:name')
-  getName(@Param('name') name: string) {
-    return this.userService.getName(name);
+  async getName(@Param('name') name: string) {
+    return await this.userService.getName(name);
   }
 
   @Get('/')
@@ -28,19 +28,19 @@ export class UserController {
   // 회원가입
   @Post('/signup')
   async createUser(@Body() user: CreateUserDto) {
-    return this.userService.createUser(user);
+    return await this.userService.createUser(user);
   }
 
   // 로그인
   @Post('/signin')
   @HttpCode(200)
   async getUser(@Body() user: GetUserDto) {
-    return this.userService.getUser(user);
+    return await this.userService.getUser(user);
   }
 
   // 회원탈퇴
   @Delete('/signin')
   async deleteUser(@Body() user: GetUserDto) {
-    return this.userService.deleteUser(user);
+    return await this.userService.deleteUser(user);
   }
 }
