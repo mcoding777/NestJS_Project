@@ -29,7 +29,7 @@ import { PipelineDataModule } from './pipeline-data/pipeline-data.module';
       password: '1234',
       database: 'mlops',
       entities: [User, Reference],
-      autoLoadEntities: true,
+      autoLoadEntities: true, // entity 자동 추가
       synchronize: true, // entity 설정 적용
       logging: true, // 로그 계속 뜨게
       keepConnectionAlive: true, // 연결 유지

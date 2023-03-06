@@ -1,9 +1,9 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { PipelineDatumDto } from './dto/create-pipeline-datum.dto';
-import { UpdatePipelineDatumDto } from './dto/update-pipeline-datum.dto';
-import { PipelineDatum } from './entities/pipeline-datum.entity';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { NotFoundError } from 'rxjs';
+import {
+  PipelineDataParams,
+  PipelineDatumDto,
+} from './dto/create-pipeline-datum.dto';
 import { PipelineDataRepository } from './pipeline-data.repository';
 
 @Injectable()
@@ -13,23 +13,46 @@ export class PipelineDataService {
     private pipelineDataService: PipelineDataRepository,
   ) {}
 
-  async save(pipelineDatumDto: PipelineDatumDto) {
-    return 'This action adds a new pipelineDatum';
+  // 검색
+  async getPipelineDatasByUserId(user_id: string) {
+    return await this.pipelineDataService.findAllByUserId(user_id);
   }
 
-  findAll() {
-    return `This action returns all pipelineData`;
+  // 추가
+  async createPipelineData(pipelineData: PipelineDataParams) {
+    const entity = await this.pipelineDataService.returnByEntity(pipelineData);
+
+    return await this.pipelineDataService.save(entity);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pipelineDatum`;
+  // 수정
+  async updatePipelineData(pipelineData: PipelineDataParams) {
+    const found = await this.pipelineDataService.findOneBy(
+      pipelineData.user_id,
+      pipelineData.value,
+    );
+
+    if (!found) {
+      throw new NotFoundException('없는 데이터입니다.');
+    }
+
+    return await this.pipelineDataService.update(found.id, pipelineData);
   }
 
-  update(id: number, updatePipelineDatumDto: UpdatePipelineDatumDto) {
-    return `This action updates a #${id} pipelineDatum`;
-  }
+  // 삭제
+  async deletePipelineData(pipelineData: PipelineDataParams) {
+    const found = await this.pipelineDataService.findOneBy(
+      pipelineData.user_id,
+      pipelineData.value,
+    );
 
-  remove(id: number) {
-    return `This action removes a #${id} pipelineDatum`;
+    if (!found) {
+      throw new NotFoundException('없는 데이터입니다.');
+    }
+
+    return await this.pipelineDataService.delete(
+      pipelineData.user_id,
+      pipelineData.value,
+    );
   }
 }

@@ -21,8 +21,8 @@ export class UserController {
   }
 
   @Get('/')
-  async getAllNames() {
-    return await this.userService.getAllName();
+  async getAllUser() {
+    return await this.userService.getAllUser();
   }
 
   // 회원가입
@@ -34,8 +34,8 @@ export class UserController {
   // 로그인
   @Post('/signin')
   @HttpCode(200)
-  async getUser(@Body() user: GetUserDto) {
-    return await this.userService.getUser(user);
+  async loginUser(@Body() user: GetUserDto) {
+    return await this.userService.loginUser(user);
   }
 
   // 회원탈퇴

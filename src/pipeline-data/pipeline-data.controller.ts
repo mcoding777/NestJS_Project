@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import { PipelineDataService } from './pipeline-data.service';
 import { PipelineDatumDto } from './dto/create-pipeline-datum.dto';
-import { UpdatePipelineDatumDto } from './dto/update-pipeline-datum.dto';
 
 @Controller('pipeline-data')
 export class PipelineDataController {
@@ -17,29 +16,27 @@ export class PipelineDataController {
 
   @Post()
   create(@Body() createPipelineDatumDto: PipelineDatumDto) {
-    // return this.pipelineDataService.create(createPipelineDatumDto);
+    console.log('createPipelineDatumDto', createPipelineDatumDto);
+    return this.pipelineDataService.createPipelineData(createPipelineDatumDto);
   }
 
-  @Get()
-  findAll() {
-    return this.pipelineDataService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   return this.pipelineDataService.findAll();
+  // }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.pipelineDataService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.pipelineDataService.findOne(+id);
+  // }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updatePipelineDatumDto: UpdatePipelineDatumDto,
-  ) {
-    return this.pipelineDataService.update(+id, updatePipelineDatumDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string) {
+  //   return this.pipelineDataService.update(+id);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.pipelineDataService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.pipelineDataService.remove(+id);
+  // }
 }

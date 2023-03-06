@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional } from 'class-validator';
 
 export class PipelineDatumDto {
   @IsNotEmpty()
@@ -8,6 +8,17 @@ export class PipelineDatumDto {
   value: string;
 
   @IsOptional()
-  @IsString()
-  options: string[];
+  options: string;
 }
+
+export type PipelineDataParams = {
+  user_id: string;
+  value: string;
+  options?: string;
+};
+
+export type PipelineDataEntity = {
+  user_id: number;
+  description_id: number;
+  options?: string;
+};
