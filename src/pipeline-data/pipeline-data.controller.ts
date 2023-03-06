@@ -16,7 +16,6 @@ export class PipelineDataController {
 
   @Post()
   create(@Body() createPipelineDatumDto: PipelineDatumDto) {
-    console.log('createPipelineDatumDto', createPipelineDatumDto);
     return this.pipelineDataService.createPipelineData(createPipelineDatumDto);
   }
 

@@ -13,46 +13,45 @@ export class PipelineDataService {
     private pipelineDataService: PipelineDataRepository,
   ) {}
 
-  // 검색
-  async getPipelineDatasByUserId(user_id: string) {
-    return await this.pipelineDataService.findAllByUserId(user_id);
-  }
+  // // 검색
+  // async getPipelineDatasByUserId(user_id: string) {
+  //   return await this.pipelineDataService.findAllByUserId(user_id);
+  // }
 
   // 추가
   async createPipelineData(pipelineData: PipelineDataParams) {
     const entity = await this.pipelineDataService.returnByEntity(pipelineData);
-
     return await this.pipelineDataService.save(entity);
   }
 
-  // 수정
-  async updatePipelineData(pipelineData: PipelineDataParams) {
-    const found = await this.pipelineDataService.findOneBy(
-      pipelineData.user_id,
-      pipelineData.value,
-    );
+  // // 수정
+  // async updatePipelineData(pipelineData: PipelineDataParams) {
+  //   const found = await this.pipelineDataService.findOneBy(
+  //     pipelineData.user_id,
+  //     pipelineData.value,
+  //   );
 
-    if (!found) {
-      throw new NotFoundException('없는 데이터입니다.');
-    }
+  //   if (!found) {
+  //     throw new NotFoundException('없는 데이터입니다.');
+  //   }
 
-    return await this.pipelineDataService.update(found.id, pipelineData);
-  }
+  //   return await this.pipelineDataService.update(found.id, pipelineData);
+  // }
 
-  // 삭제
-  async deletePipelineData(pipelineData: PipelineDataParams) {
-    const found = await this.pipelineDataService.findOneBy(
-      pipelineData.user_id,
-      pipelineData.value,
-    );
+  // // 삭제
+  // async deletePipelineData(pipelineData: PipelineDataParams) {
+  //   const found = await this.pipelineDataService.findOneBy(
+  //     pipelineData.user_id,
+  //     pipelineData.value,
+  //   );
 
-    if (!found) {
-      throw new NotFoundException('없는 데이터입니다.');
-    }
+  //   if (!found) {
+  //     throw new NotFoundException('없는 데이터입니다.');
+  //   }
 
-    return await this.pipelineDataService.delete(
-      pipelineData.user_id,
-      pipelineData.value,
-    );
-  }
+  //   return await this.pipelineDataService.delete(
+  //     pipelineData.user_id,
+  //     pipelineData.value,
+  //   );
+  // }
 }

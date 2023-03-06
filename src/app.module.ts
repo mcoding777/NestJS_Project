@@ -13,6 +13,7 @@ import { ReferenceModule } from './reference/reference.module';
 import { Reference } from './reference/entities/reference.entity';
 import { PipelineModule } from './pipeline/pipeline.module';
 import { PipelineDataModule } from './pipeline-data/pipeline-data.module';
+import { PipelineDatum } from './pipeline-data/entities/pipeline-datum.entity';
 
 @Module({
   imports: [
@@ -28,7 +29,7 @@ import { PipelineDataModule } from './pipeline-data/pipeline-data.module';
       username: 'root',
       password: '1234',
       database: 'mlops',
-      entities: [User, Reference],
+      entities: [User, Reference, PipelineDatum],
       autoLoadEntities: true, // entity 자동 추가
       synchronize: true, // entity 설정 적용
       logging: true, // 로그 계속 뜨게
