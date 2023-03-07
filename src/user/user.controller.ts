@@ -32,14 +32,14 @@ export class UserController {
   }
 
   // 로그인
-  @Post('/signin')
+  @Post('/')
   @HttpCode(200)
   async loginUser(@Body() user: GetUserDto) {
     return await this.userService.loginUser(user);
   }
 
   // 회원탈퇴
-  @Delete('/signin')
+  @Delete('/')
   async deleteUser(@Body() user: GetUserDto) {
     return await this.userService.deleteUser(user);
   }
