@@ -23,13 +23,9 @@ export class UserService {
     return this.userRepository.findOneBy({ user_id });
   }
 
-  getName(name: string) {
-    return `${name}는 바보입니다.`;
-  }
-
   // 존재하는지 체크
-  async isExistUser(user_id: GetUserParams['user_id']) {
-    return await this.userRepository.findOneBy({ user_id });
+  async isExistUser(user_id: string, user_pw?: string) {
+    return await this.userRepository.findOneBy({ user_id, user_pw });
   }
 
   // 회원가입
@@ -44,7 +40,7 @@ export class UserService {
 
   // 로그인
   async loginUser(user: GetUserParams): Promise<User> {
-    const found = await this.isExistUser(user.user_id);
+    const found = await this.isExistUser(user.user_id, user.user_pw);
 
     if (!found) {
       throw new NotFoundException();
