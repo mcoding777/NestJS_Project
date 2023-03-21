@@ -39,8 +39,8 @@ export class UserService {
   }
 
   // 로그인
-  async loginUser(user: GetUserParams): Promise<User> {
-    const found = await this.isExistUser(user.user_id, user.user_pw);
+  async loginUser(user: GetUserParams, user_id: string): Promise<User> {
+    const found = await this.isExistUser(user_id, user.user_pw);
 
     if (!found) {
       throw new NotFoundException();

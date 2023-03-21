@@ -26,16 +26,16 @@ export class UserController {
   }
 
   // 회원가입
-  @Post('/signup')
+  @Post('/')
   async createUser(@Body() user: CreateUserDto) {
     return await this.userService.createUser(user);
   }
 
   // 로그인
-  @Post('/')
+  @Post('/:user_id')
   @HttpCode(200)
-  async loginUser(@Body() user: GetUserDto) {
-    return await this.userService.loginUser(user);
+  async loginUser(@Body() user: GetUserDto, @Param('user_id') user_id: string) {
+    return await this.userService.loginUser(user, user_id);
   }
 
   // 회원탈퇴
