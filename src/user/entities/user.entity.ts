@@ -10,19 +10,21 @@ export class User {
     length: 50,
     unique: true,
     nullable: false,
-    default: '',
   })
   user_id: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: false, default: '' })
+  @Column({ type: 'varchar', length: 50, nullable: false })
   user_pw: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: false, default: '' })
+  @Column({ type: 'varchar', length: 50, nullable: false })
   client: string;
 
-  @Column({ type: 'varchar', length: 50, nullable: false, default: '' })
+  @Column({ type: 'varchar', length: 50, nullable: false })
   manager: string;
 
-  @Column({ type: 'varchar', length: 15, nullable: false, default: '' })
+  @Column({ type: 'varchar', length: 15, nullable: true, default: null })
   phone: string;
+
+  @Column({ type: 'tinyint', nullable: false, default: 0 })
+  verify: number;
 }

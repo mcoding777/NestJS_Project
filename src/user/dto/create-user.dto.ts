@@ -1,4 +1,5 @@
-import { IsNotEmpty } from 'class-validator';
+import { Optional } from '@nestjs/common';
+import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -13,8 +14,13 @@ export class CreateUserDto {
   @IsNotEmpty()
   manager: string;
 
-  @IsNotEmpty()
+  @Optional()
+  @IsString()
   phone: string;
+
+  @Optional()
+  @IsNumber()
+  verify: number;
 }
 
 export class GetUserDto {

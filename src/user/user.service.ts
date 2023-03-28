@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import { CreateUserParams, GetUserParams } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 
@@ -20,12 +20,15 @@ export class UserService {
   }
 
   getUser(user_id: GetUserParams['user_id']) {
-    return this.userRepository.findOneBy({ user_id });
+    return this.userRepository.findOneBy({ user_id: Like(user_id) }); // Like : 대소문자 구분... 안되는디?
   }
 
   // 존재하는지 체크
   async isExistUser(user_id: string, user_pw?: string) {
-    return await this.userRepository.findOneBy({ user_id, user_pw });
+    return await this.userRepository.findOneBy({
+      user_id: Like(user_id),
+      user_pw: Like(user_pw),
+    });
   }
 
   // 회원가입
