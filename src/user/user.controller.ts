@@ -5,9 +5,14 @@ import {
   Get,
   HttpCode,
   Param,
+  Patch,
   Post,
 } from '@nestjs/common';
-import { CreateUserDto, GetUserDto } from './dto/create-user.dto';
+import {
+  CreateUserDto,
+  GetUserDto,
+  UpdateUserDto,
+} from './dto/create-user.dto';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -38,9 +43,27 @@ export class UserController {
     return await this.userService.loginUser(user, user_id);
   }
 
+  // 회원정보 수정
+  @Patch('/:user_id')
+  @HttpCode(200)
+  async updateUser(
+    @Body() user: UpdateUserDto,
+    @Param('user_id') user_id: string,
+  ) {
+    const result = await this.userService.updateUser(user, user_id);
+
+    console.log('result => ', result);
+
+    return Object.assign({
+      data: result,
+      status: 200,
+      message: '데이터 수정에 성공했습니다.',
+    });
+  }
+
   // 회원탈퇴
-  @Delete('/')
-  async deleteUser(@Body() user: GetUserDto) {
-    return await this.userService.deleteUser(user);
+  @Delete('/:user_id')
+  async deleteUser(@Param('user_id') user_id: string) {
+    return await this.userService.deleteUser(user_id);
   }
 }

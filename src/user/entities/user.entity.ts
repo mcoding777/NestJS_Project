@@ -24,7 +24,4 @@ export class User {
 
   @Column({ type: 'varchar', length: 15, nullable: true, default: null })
   phone: string;
-
-  @Column({ type: 'tinyint', nullable: false, default: 0 })
-  verify: number;
 }

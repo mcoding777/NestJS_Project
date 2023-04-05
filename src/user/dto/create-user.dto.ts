@@ -15,17 +15,26 @@ export class CreateUserDto {
   manager: string;
 
   @Optional()
-  @IsString()
   phone: string;
-
-  @Optional()
-  @IsNumber()
-  verify: number;
 }
 
 export class GetUserDto {
   @IsNotEmpty()
   user_pw: string;
+}
+
+export class UpdateUserDto {
+  @Optional()
+  user_pw: string;
+
+  @Optional()
+  client: string;
+
+  @Optional()
+  manager: string;
+
+  @Optional()
+  phone: string;
 }
 
 export type CreateUserParams = {
@@ -40,3 +49,10 @@ export type GetUserParams = {
   user_id?: string;
   user_pw: string;
 };
+
+export class UpdateUserParams {
+  user_pw?: string;
+  client?: string;
+  manager?: string;
+  phone?: string;
+}

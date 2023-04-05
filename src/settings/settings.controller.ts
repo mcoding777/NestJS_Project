@@ -1,16 +1,14 @@
 import { Body, Controller, Param, Post } from '@nestjs/common';
 import { SettingsService } from './settings.service';
 
-@Controller('settings')
+@Controller('setting')
 export class SettingsController {
   constructor(private settingService: SettingsService) {}
 
-  @Post('/:property')
-  async setSetting(
-    @Body() data: { text: string },
-    @Param('property') property: 'one' | 'two',
-  ): Promise<string> {
-    this.settingService.setSetting[property] = data.text;
-    return `성공적으로 변경되었습니다. => 변경된 데이터 : ${data.text}`;
+  @Post('/')
+  async setSetting(@Body() data: Record<string, string>): Promise<string> {
+    return `성공적으로 변경되었습니다. => 변경된 데이터 : ${JSON.stringify(
+      data,
+    )}`;
   }
 }

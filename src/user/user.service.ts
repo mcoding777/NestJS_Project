@@ -5,7 +5,12 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Like } from 'typeorm';
-import { CreateUserParams, GetUserParams } from './dto/create-user.dto';
+import {
+  CreateUserParams,
+  GetUserParams,
+  UpdateUserDto,
+  UpdateUserParams,
+} from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 
 @Injectable()
@@ -20,15 +25,12 @@ export class UserService {
   }
 
   getUser(user_id: GetUserParams['user_id']) {
-    return this.userRepository.findOneBy({ user_id: Like(user_id) }); // Like : 대소문자 구분... 안되는디?
+    return this.userRepository.findOneBy({ user_id });
   }
 
   // 존재하는지 체크
-  async isExistUser(user_id: string, user_pw?: string) {
-    return await this.userRepository.findOneBy({
-      user_id: Like(user_id),
-      user_pw: Like(user_pw),
-    });
+  async isExistUser(user_id: string) {
+    return await this.userRepository.findOneBy({ user_id });
   }
 
   // 회원가입
@@ -43,26 +45,41 @@ export class UserService {
 
   // 로그인
   async loginUser(user: GetUserParams, user_id: string): Promise<User> {
-    const found = await this.isExistUser(user_id, user.user_pw);
+    const found = await this.isExistUser(user_id);
 
-    if (!found) {
+    if (!found || found.user_pw !== user.user_pw) {
       throw new NotFoundException();
     }
 
     return found;
   }
 
-  // 회원탈퇴
-  async deleteUser(user: GetUserParams) {
-    if (!(await this.isExistUser(user.user_id))) {
+  // 회원정보 수정
+  async updateUser(user: UpdateUserParams, user_id: string) {
+    const found = await this.isExistUser(user_id);
+
+    if (!found) {
       throw new NotFoundException();
-    } else {
-      await this.userRepository
+    }
+
+    return await this.userRepository.update(found.id, {
+      ...found,
+      ...user,
+    });
+  }
+
+  // 회원탈퇴
+  async deleteUser(user_id: string) {
+    const found = await this.isExistUser(user_id);
+
+    if (found) {
+      return await this.userRepository
         .createQueryBuilder()
         .delete()
         .from(User)
-        .where('user_id = :user_id', { user_id: user.user_id })
+        .where({ user_id })
         .execute();
     }
+    throw new NotFoundException();
   }
 }

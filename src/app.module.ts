@@ -14,14 +14,10 @@ import { Reference } from './reference/entities/reference.entity';
 import { PipelineModule } from './pipeline/pipeline.module';
 import { PipelineDataModule } from './pipeline-data/pipeline-data.module';
 import { PipelineDatum } from './pipeline-data/entities/pipeline-datum.entity';
+import { ClientModule } from './client/client.module';
 
 @Module({
   imports: [
-    BoardsModule,
-    UserModule,
-    TargetModule,
-    TrackingModule,
-    SettingsModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -36,10 +32,16 @@ import { PipelineDatum } from './pipeline-data/entities/pipeline-datum.entity';
       keepConnectionAlive: true, // 연결 유지
       charset: 'utf8mb4_unicode_ci',
     }),
+    BoardsModule,
+    UserModule,
+    TargetModule,
+    TrackingModule,
+    SettingsModule,
     LogModule,
     ReferenceModule,
     PipelineModule,
     PipelineDataModule,
+    ClientModule,
   ],
   providers: [
     {
