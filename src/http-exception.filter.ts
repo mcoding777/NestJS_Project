@@ -5,6 +5,7 @@ import {
   HttpException,
   HttpStatus,
   NotFoundException,
+  ConflictException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { QueryFailedError } from 'typeorm';
@@ -33,6 +34,12 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       case NotFoundException:
         status = HttpStatus.NOT_FOUND;
         message = '찾을 수 없습니다. 입력하신 내용을 다시 확인해주세요.';
+        code = (exception as any).code;
+        break;
+
+      case ConflictException:
+        status = HttpStatus.CONFLICT;
+        message = (exception as QueryFailedError).message;
         code = (exception as any).code;
         break;
 
