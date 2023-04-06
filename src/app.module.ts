@@ -16,6 +16,8 @@ import { PipelineDataModule } from './pipeline-data/pipeline-data.module';
 import { PipelineDatum } from './pipeline-data/entities/pipeline-datum.entity';
 import { ClientModule } from './client/client.module';
 import { Client } from './client/entities/client.entity';
+import { CommandsModule } from './commands/commands.module';
+import { Command } from './commands/entities/command.entity';
 
 @Module({
   imports: [
@@ -26,7 +28,7 @@ import { Client } from './client/entities/client.entity';
       username: 'root',
       password: '1234',
       database: 'mlops',
-      entities: [User, Reference, PipelineDatum, Client],
+      entities: [User, Reference, PipelineDatum, Client, Command],
       autoLoadEntities: true, // entity 자동 추가
       synchronize: true, // entity 설정 적용
       logging: true, // 로그 계속 뜨게
@@ -43,6 +45,7 @@ import { Client } from './client/entities/client.entity';
     PipelineModule,
     PipelineDataModule,
     ClientModule,
+    CommandsModule,
   ],
   providers: [
     {

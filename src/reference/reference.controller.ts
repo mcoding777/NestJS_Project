@@ -10,19 +10,14 @@ import {
 import { CreateReferenceDto } from './dto/create-reference';
 import { ReferenceService } from './reference.service';
 
-@Controller('reference')
+@Controller('references')
 export class ReferenceController {
   constructor(private readonly referenceService: ReferenceService) {}
 
   // 전체 검색
   @Get('/')
   async getAllReference() {
-    const result = await this.referenceService.getAllReference();
-    return Object.assign({
-      data: result,
-      status: 200,
-      message: '데이터 조회에 성공했습니다.',
-    });
+    return await this.referenceService.getAllReference();
   }
 
   // 검색
@@ -39,12 +34,7 @@ export class ReferenceController {
   // 추가
   @Post('/')
   async createReference(@Body() body: CreateReferenceDto) {
-    const result = await this.referenceService.createReference(body);
-    return Object.assign({
-      data: result,
-      status: 201,
-      message: '데이터 추가에 성공했습니다.',
-    });
+    return await this.referenceService.createReference(body);
   }
 
   // 수정

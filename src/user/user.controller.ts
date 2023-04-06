@@ -15,7 +15,7 @@ import {
 } from './dto/create-user.dto';
 import { UserService } from './user.service';
 
-@Controller('user')
+@Controller('users')
 // @UseFilters(GlobalExceptionFilter) // 컨트롤러단에서 예외 처리 (전역 설정 안했을 때)
 export class UserController {
   constructor(private userService: UserService) {}
