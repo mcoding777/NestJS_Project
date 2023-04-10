@@ -2,6 +2,7 @@ import { ConflictException, Inject, Injectable } from '@nestjs/common';
 import { ClientRepository } from './client.repository';
 import {
   CreateClientParams,
+  GetClientParams,
   UpdateClientParams,
 } from './dto/params-client.dto';
 
@@ -12,8 +13,30 @@ export class ClientService {
     private clientRepository: ClientRepository,
   ) {}
 
-  async getAllClient() {
-    return await this.clientRepository.findAll();
+  async getAllClient(pagination?: GetClientParams) {
+    console.log('pagination => ', pagination);
+    const found = await this.clientRepository.findAll();
+    const totalPage =
+      Math.ceil(found.length / pagination.limit) ||
+      Math.ceil(found.length / 10);
+
+    if (!pagination) {
+      return {
+        data: found,
+        totalPage,
+      };
+    }
+
+    const currentMin = pagination.page - 1;
+    const currentMax = pagination.limit * pagination.page - 1;
+    const currentList = found.slice(
+      currentMin,
+      currentMax > found.length ? found.length : currentMax,
+    );
+    return {
+      data: currentList,
+      totalPage,
+    };
   }
 
   async createClient(createClientParams: CreateClientParams) {

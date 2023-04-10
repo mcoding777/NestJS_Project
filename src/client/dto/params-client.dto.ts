@@ -9,3 +9,8 @@ export type UpdateClientParams = {
   manager?: string;
   phone?: string;
 };
+
+export type GetClientParams = {
+  page?: number;
+  limit?: number;
+};

@@ -6,18 +6,20 @@ import {
   Param,
   Delete,
   Get,
+  Query,
 } from '@nestjs/common';
 import { ClientService } from './client.service';
 import { CreateClientDto } from './dto/create-client.dto';
+import { GetClientDto } from './dto/get-client.dto';
 import { UpdateClientDto } from './dto/update-client.dto';
 
-@Controller('client')
+@Controller('clients')
 export class ClientController {
   constructor(private readonly clientService: ClientService) {}
 
   @Get()
-  async getAllClient() {
-    return await this.clientService.getAllClient();
+  async getAllClient(@Query() pagination?: GetClientDto) {
+    return await this.clientService.getAllClient(pagination);
   }
 
   @Post()
