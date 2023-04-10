@@ -26,6 +26,15 @@ export class Reference {
   @Column({ type: 'varchar', length: 200, nullable: true })
   description: string;
 
+  @Column({ type: 'varchar', length: 50, nullable: false })
+  data_type: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: false })
+  component_type: string;
+
+  @Column({ type: 'varchar', length: 50, nullable: false })
+  required: string;
+
   @CreateDateColumn()
   created!: Date;
 
