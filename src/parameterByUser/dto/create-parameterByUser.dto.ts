@@ -2,7 +2,7 @@ import { IsNotEmpty, IsOptional } from 'class-validator';
 import { Reference } from 'src/reference/entities/reference.entity';
 import { User } from 'src/user/entities/user.entity';
 
-export class PipelineDatumDto {
+export class ParameterByUserDto {
   @IsNotEmpty()
   user_id: string;
 
@@ -13,13 +13,13 @@ export class PipelineDatumDto {
   options: string;
 }
 
-export type PipelineDataParams = {
+export type ParameterByUserParams = {
   user_id: string;
   value: string;
   options?: string;
 };
 
-export type PipelineDataEntity = {
+export type ParameterByUserEntity = {
   user: User;
   reference: Reference;
   options?: string;

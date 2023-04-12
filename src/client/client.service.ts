@@ -14,21 +14,20 @@ export class ClientService {
   ) {}
 
   async getAllClient(pagination?: GetClientParams) {
-    console.log('pagination => ', pagination);
     const found = await this.clientRepository.findAll();
     const totalPage =
       Math.ceil(found.length / pagination.limit) ||
       Math.ceil(found.length / 10);
 
-    if (!pagination) {
+    if (!pagination?.page) {
       return {
         data: found,
         totalPage,
       };
     }
 
-    const currentMin = pagination.page - 1;
-    const currentMax = pagination.limit * pagination.page - 1;
+    const currentMin = pagination.limit * (pagination.page - 1);
+    const currentMax = pagination.limit * pagination.page;
     const currentList = found.slice(
       currentMin,
       currentMax > found.length ? found.length : currentMax,

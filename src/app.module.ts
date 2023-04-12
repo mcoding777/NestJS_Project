@@ -12,8 +12,8 @@ import { GlobalExceptionFilter } from './http-exception.filter';
 import { ReferenceModule } from './reference/reference.module';
 import { Reference } from './reference/entities/reference.entity';
 import { PipelineModule } from './pipeline/pipeline.module';
-import { PipelineDataModule } from './pipeline-data/pipeline-data.module';
-import { PipelineDatum } from './pipeline-data/entities/pipeline-datum.entity';
+import { ParameterByUserModule } from './parameterByUser/parameterByUser.module';
+import { ParameterByUser } from './parameterByUser/entities/parameterByUser.entity';
 import { ClientModule } from './client/client.module';
 import { Client } from './client/entities/client.entity';
 import { CommandsModule } from './commands/commands.module';
@@ -28,7 +28,7 @@ import { Command } from './commands/entities/command.entity';
       username: 'root',
       password: '1234',
       database: 'mlops',
-      entities: [User, Reference, PipelineDatum, Client, Command],
+      entities: [User, Reference, ParameterByUser, Client, Command],
       autoLoadEntities: true, // entity 자동 추가
       synchronize: true, // entity 설정 적용
       logging: true, // 로그 계속 뜨게
@@ -43,7 +43,7 @@ import { Command } from './commands/entities/command.entity';
     LogModule,
     ReferenceModule,
     PipelineModule,
-    PipelineDataModule,
+    ParameterByUserModule,
     ClientModule,
     CommandsModule,
   ],

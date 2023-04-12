@@ -6,16 +6,16 @@ import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
 import { In, Repository } from 'typeorm';
 import {
-  PipelineDataEntity,
-  PipelineDataParams,
-} from './dto/create-pipeline-datum.dto';
-import { PipelineDatum } from './entities/pipeline-datum.entity';
+  ParameterByUserEntity,
+  ParameterByUserParams,
+} from './dto/create-parameterByUser.dto';
+import { ParameterByUser } from './entities/parameterByUser.entity';
 
 @Injectable()
-export class PipelineDataRepository {
+export class ParameterByUserRepository {
   constructor(
-    @InjectRepository(PipelineDatum)
-    private pipelineDataRepository: Repository<PipelineDatum>,
+    @InjectRepository(ParameterByUser)
+    private ParameterByUserRepository: Repository<ParameterByUser>,
     @Inject(UserService)
     private userRepository: UserService,
     @Inject(ReferenceRepository)
@@ -30,12 +30,12 @@ export class PipelineDataRepository {
     // const userGeneratedId = await this.findGeneratedUserId(user_id);
     // const referenceGeneratedId = await this.findGeneratedReferenceId(value);
 
-    // return await this.pipelineDataRepository.findOneBy({
+    // return await this.ParameterByUserRepository.findOneBy({
     //   user_id: userGeneratedId,
     //   description_id: referenceGeneratedId,
     // });
 
-    return await this.pipelineDataRepository.find({
+    return await this.ParameterByUserRepository.find({
       where: {
         user: In([user_id]),
         reference: In([value]),
@@ -45,7 +45,7 @@ export class PipelineDataRepository {
   }
 
   async findAll() {
-    return await this.pipelineDataRepository.find();
+    return await this.ParameterByUserRepository.find();
   }
 
   async findOneByReferenceValue(value: string) {
@@ -53,8 +53,8 @@ export class PipelineDataRepository {
   }
 
   async returnByEntity(
-    pipelineData: PipelineDataParams,
-  ): Promise<PipelineDataEntity> {
+    pipelineData: ParameterByUserParams,
+  ): Promise<ParameterByUserEntity> {
     const user = await this.findOneByUserId(pipelineData.user_id);
     const reference = await this.findOneByReferenceValue(pipelineData.value);
 
@@ -65,24 +65,24 @@ export class PipelineDataRepository {
     };
   }
 
-  async save(entity: PipelineDataEntity) {
-    return await this.pipelineDataRepository.save(entity);
+  async save(entity: ParameterByUserEntity) {
+    return await this.ParameterByUserRepository.save(entity);
   }
 
-  // async update(id: number, pipelineData: PipelineDataParams) {
+  // async update(id: number, pipelineData: ParameterByUserParams) {
   //   const entity = await this.returnByEntity(pipelineData);
 
-  //   return await this.pipelineDataRepository.update(id, entity);
+  //   return await this.ParameterByUserRepository.update(id, entity);
   // }
 
   // async delete(user_id: User['user_id'], value: Reference['value']) {
   //   const userGeneratedId = await this.findGeneratedUserId(user_id);
   //   const referenceGeneratedId = await this.findGeneratedReferenceId(value);
 
-  //   return await this.pipelineDataRepository
+  //   return await this.ParameterByUserRepository
   //     .createQueryBuilder()
   //     .delete()
-  //     .from(PipelineDatum)
+  //     .from(ParameterByUser)
   //     .where({ user_id: userGeneratedId, description_id: referenceGeneratedId })
   //     .execute();
   // }

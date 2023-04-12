@@ -2,7 +2,7 @@ import { Reference } from 'src/reference/entities/reference.entity';
 import { User } from 'src/user/entities/user.entity';
 import { PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 
-export class PipelineDatum {
+export class ParameterByUser {
   @PrimaryGeneratedColumn({ type: 'bigint' })
   id: number;
 
