@@ -1,51 +1,32 @@
 import { Module } from '@nestjs/common';
 import { BoardsModule } from './boards/boards.module';
-import { UserModule } from './user/user.module';
 import { TargetModule } from './target/target.module';
 import { TrackingModule } from './tracking/tracking.module';
 import { SettingsModule } from './settings/settings.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './user/entities/user.entity';
-import { LogModule } from './log/log.module';
 import { APP_FILTER } from '@nestjs/core';
 import { GlobalExceptionFilter } from './http-exception.filter';
-import { ReferenceModule } from './reference/reference.module';
-import { Reference } from './reference/entities/reference.entity';
-import { PipelineModule } from './pipeline/pipeline.module';
-import { ParameterByUserModule } from './parameterByUser/parameterByUser.module';
-import { ParameterByUser } from './parameterByUser/entities/parameterByUser.entity';
-import { ClientModule } from './client/client.module';
-import { Client } from './client/entities/client.entity';
-import { CommandsModule } from './commands/commands.module';
-import { Command } from './commands/entities/command.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: '1234',
-      database: 'mlops',
-      entities: [User, Reference, ParameterByUser, Client, Command],
-      autoLoadEntities: true, // entity 자동 추가
-      synchronize: true, // entity 설정 적용
-      logging: true, // 로그 계속 뜨게
-      keepConnectionAlive: true, // 연결 유지
-      charset: 'utf8mb4_unicode_ci',
-    }),
+    // TypeOrmModule.forRoot({
+    //   type: 'mysql',
+    //   host: 'localhost',
+    //   port: 3306,
+    //   username: 'root',
+    //   password: '1234',
+    //   database: 'mcoding777',
+    //   entities: [__dirname + '/**/*.entity{.ts,.js}'],
+    //   autoLoadEntities: true, // entity 자동 추가
+    //   synchronize: true, // entity 설정 적용
+    //   logging: true, // 로그 계속 뜨게
+    //   keepConnectionAlive: true, // 연결 유지
+    //   charset: 'utf8mb4_unicode_ci',
+    // }),
     BoardsModule,
-    UserModule,
     TargetModule,
     TrackingModule,
     SettingsModule,
-    LogModule,
-    ReferenceModule,
-    PipelineModule,
-    ParameterByUserModule,
-    ClientModule,
-    CommandsModule,
   ],
   providers: [
     {
