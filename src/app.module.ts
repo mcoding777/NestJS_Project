@@ -6,6 +6,9 @@ import { SettingsModule } from './settings/settings.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { APP_FILTER } from '@nestjs/core';
 import { GlobalExceptionFilter } from './http-exception.filter';
+import { RadarStatusModule } from './radar-status/radar-status.module';
+import { StatusModule } from './status/status.module';
+import { ManagerModule } from './manager/manager.module';
 
 @Module({
   imports: [
@@ -27,6 +30,9 @@ import { GlobalExceptionFilter } from './http-exception.filter';
     TargetModule,
     TrackingModule,
     SettingsModule,
+    RadarStatusModule,
+    StatusModule,
+    ManagerModule,
   ],
   providers: [
     {
